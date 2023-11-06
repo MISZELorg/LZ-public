@@ -208,8 +208,7 @@ resource "azurerm_private_endpoint" "testprvendpoint" {
   depends_on = [ 
     azurerm_resource_group.testRG,
     azurerm_virtual_network.example,
-    azurerm_subnet.endpoint,
-    azurerm_storage_account.testSA
+    azurerm_subnet.endpoint
   ]
 }
 
