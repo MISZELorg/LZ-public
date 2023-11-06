@@ -252,21 +252,21 @@ resource "azurerm_key_vault_key" "example" {
 
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_private_endpoint" "testprvendpoint2" {
-  name                = "testprvendpoint2"
-  location            = azurerm_resource_group.testRG.location
-  resource_group_name = azurerm_resource_group.testRG.name
-  subnet_id = azurerm_subnet.endpoint.id
-  private_service_connection {
-    name                           = "example-privateserviceconnection2"
-    private_connection_resource_id = azurerm_key_vault.example.id
-    is_manual_connection = false
-  }
-  depends_on = [ 
-    azurerm_resource_group.testRG,
-    azurerm_virtual_network.example,
-    azurerm_subnet.endpoint,
-    azurerm_key_vault.example
-  ]
-}
+# resource "azurerm_private_endpoint" "testprvendpoint2" {
+#   name                = "testprvendpoint2"
+#   location            = azurerm_resource_group.testRG.location
+#   resource_group_name = azurerm_resource_group.testRG.name
+#   subnet_id = azurerm_subnet.endpoint.id
+#   private_service_connection {
+#     name                           = "example-privateserviceconnection2"
+#     private_connection_resource_id = azurerm_key_vault.example.id
+#     is_manual_connection = false
+#   }
+#   depends_on = [ 
+#     azurerm_resource_group.testRG,
+#     azurerm_virtual_network.example,
+#     azurerm_subnet.endpoint,
+#     azurerm_key_vault.example
+#   ]
+# }
 
