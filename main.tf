@@ -47,6 +47,14 @@ resource "azurerm_storage_account" "testSA" {
   public_network_access_enabled = false
   allow_nested_items_to_be_public = false
   shared_access_key_enabled = false
+  blob_properties {
+    delete_retention_policy {
+      days = 365
+    }
+    container_delete_retention_policy {
+      days = 7
+    }
+  }
   sas_policy {
     expiration_period = "2024-12-30T20:00:00Z"
   }
@@ -70,6 +78,29 @@ resource "azurerm_virtual_network" "example" {
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.testRG.location
   resource_group_name = azurerm_resource_group.testRG.name
+}
+
+resource "azurerm_network_security_group" "NSG" {
+  name                = "NSG1"
+  location            = azurerm_resource_group.testRG.location
+  resource_group_name = azurerm_resource_group.testRG.name
+
+  security_rule {
+    name                       = "test123"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = azurerm_subnet.endpoint.id
+  network_security_group_id = azurerm_network_security_group.NSG.id
 }
 
 resource "azurerm_subnet" "endpoint" {
