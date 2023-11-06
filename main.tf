@@ -222,7 +222,7 @@ resource "azurerm_key_vault" "example" {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
 
-    key_permissions = ["get", "create", "wrapKey", "unwrapKey", "sign", "verify"]
+    key_permissions = ["Get", "Create", "WrapKey", "UnwrapKey", "Sign", "Verify"]
   }
   depends_on = [ 
     azurerm_resource_group.testRG
