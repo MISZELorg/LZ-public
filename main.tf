@@ -65,6 +65,46 @@ resource "azurerm_storage_account" "testSA" {
   }
 }
 
+resource "azurerm_virtual_network" "example" {
+  name                = "example-network"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.testRG.location
+  resource_group_name = azurerm_resource_group.testRG.name
+}
+
+resource "azurerm_subnet" "endpoint" {
+  name                 = "endpoint"
+  resource_group_name  = azurerm_resource_group.testRG.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
+resource "azurerm_private_endpoint" "testprvendpoint" {
+  name                = "testprvendpoint"
+  location            = azurerm_resource_group.testRG.location
+  resource_group_name = azurerm_resource_group.testRG.name
+  subnet_id = azurerm_subnet.endpoint.id
+
+  private_service_connection {
+    name                           = "example-privateserviceconnection"
+    private_connection_resource_id = azurerm_storage_account.testSA.id
+    is_manual_connection = false
+  }
+}
+
+resource "azurerm_private_endpoint" "testprvendpoint2" {
+  name                = "testprvendpoint2"
+  location            = azurerm_resource_group.testRG.location
+  resource_group_name = azurerm_resource_group.testRG.name
+  subnet_id = azurerm_subnet.endpoint.id
+
+  private_service_connection {
+    name                           = "example-privateserviceconnection2"
+    private_connection_resource_id = azurerm_key_vault.example.id
+    is_manual_connection = false
+  }
+}
+
 resource "azurerm_key_vault" "example" {
   name                = "example-keyvault"
   resource_group_name = azurerm_resource_group.testRG.name
