@@ -84,6 +84,7 @@ resource "azurerm_network_security_rule" "http" {
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 80
   source_port_range           = "*"
+  destination_address_prefix  = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
@@ -103,6 +104,7 @@ resource "azurerm_network_security_rule" "https" {
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 443
   source_port_range           = "*"
+  destination_address_prefix  = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
@@ -122,6 +124,7 @@ resource "azurerm_network_security_rule" "rdp" {
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 3389
   source_port_range           = "*"
+  destination_address_prefix  = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
@@ -141,6 +144,7 @@ resource "azurerm_network_security_rule" "ssh" {
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 22
   source_port_range           = "*"
+  destination_address_prefix  = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
