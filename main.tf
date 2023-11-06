@@ -46,12 +46,16 @@ resource "azurerm_storage_account" "testSA" {
   enable_https_traffic_only = true
   public_network_access_enabled = false
   allow_nested_items_to_be_public = false
+  shared_access_key_enabled = false
+  sas_policy {
+    expiration_period = "2024-12-30T20:00:00Z"
+  }
   customer_managed_key {
     key_vault_key_id = azurerm_key_vault_key.example.id
     user_assigned_identity_id = ""
   }
   queue_properties  {
-  logging {
+    logging {
         delete                = true
         read                  = true
         write                 = true
