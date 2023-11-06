@@ -32,6 +32,120 @@ resource "azurerm_resource_group" "testRG" {
   location = "westeurope"
 }
 
+resource "azurerm_virtual_network" "example" {
+  name                = "example-network"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.testRG.location
+  resource_group_name = azurerm_resource_group.testRG.name
+  depends_on = [ 
+    azurerm_resource_group.testRG
+  ]
+}
+
+resource "azurerm_subnet" "endpoint" {
+  name                 = "endpoint"
+  resource_group_name  = azurerm_resource_group.testRG.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.2.0/24"]
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example
+  ]
+}
+
+resource "azurerm_network_security_group" "NSG" {
+  name                = "NSG1"
+  location            = azurerm_resource_group.testRG.location
+  resource_group_name = azurerm_resource_group.testRG.name
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint
+  ]
+}
+
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = azurerm_subnet.endpoint.id
+  network_security_group_id = azurerm_network_security_group.NSG.id
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint
+  ]
+}
+
+resource "azurerm_network_security_rule" "http" {
+  name                        = "example"
+  access                      = "Deny"
+  direction                   = "Inbound"
+  network_security_group_name = azurerm_network_security_group.NSG.name
+  priority                    = 100
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+  destination_port_range = 80
+  source_address_prefix  = "Internet"
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint,
+    azurerm_network_security_group.NSG
+  ]
+}
+
+resource "azurerm_network_security_rule" "https" {
+  name                        = "example"
+  access                      = "Deny"
+  direction                   = "Inbound"
+  network_security_group_name = azurerm_network_security_group.NSG.name
+  priority                    = 100
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+  destination_port_range = 443
+  source_address_prefix  = "Internet"
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint,
+    azurerm_network_security_group.NSG
+  ]
+}
+
+resource "azurerm_network_security_rule" "rdp" {
+  name                        = "example2"
+  access                      = "Deny"
+  direction                   = "Inbound"
+  network_security_group_name = azurerm_network_security_group.NSG.name
+  priority                    = 110
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+  destination_port_range = 3389
+  source_address_prefix  = "Internet"
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint,
+    azurerm_network_security_group.NSG
+  ]
+}
+
+resource "azurerm_network_security_rule" "ssh" {
+  name                        = "example3"
+  access                      = "Deny"
+  direction                   = "Inbound"
+  network_security_group_name = azurerm_network_security_group.NSG.name
+  priority                    = 120
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+  destination_port_range = 22
+  source_address_prefix  = "Internet"
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint,
+    azurerm_network_security_group.NSG
+  ]
+}
+
 resource "azurerm_storage_account" "testSA" {
   name                     = "kmiszeltestsa12"
   account_kind = "StorageV2"
@@ -73,107 +187,22 @@ resource "azurerm_storage_account" "testSA" {
   }
 }
 
-resource "azurerm_virtual_network" "example" {
-  name                = "example-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.testRG.location
-  resource_group_name = azurerm_resource_group.testRG.name
-}
-
-resource "azurerm_network_security_group" "NSG" {
-  name                = "NSG1"
-  location            = azurerm_resource_group.testRG.location
-  resource_group_name = azurerm_resource_group.testRG.name
-}
-
-resource "azurerm_network_security_rule" "http" {
-  name                        = "example"
-  access                      = "Deny"
-  direction                   = "Inbound"
-  network_security_group_name = azurerm_network_security_group.NSG.name
-  priority                    = 100
-  protocol                    = "Tcp"
-  resource_group_name         = azurerm_resource_group.testRG.name
-
-  destination_port_range = 80
-  source_address_prefix  = "Internet"
-}
-
-resource "azurerm_network_security_rule" "https" {
-  name                        = "example"
-  access                      = "Deny"
-  direction                   = "Inbound"
-  network_security_group_name = azurerm_network_security_group.NSG.name
-  priority                    = 100
-  protocol                    = "Tcp"
-  resource_group_name         = azurerm_resource_group.testRG.name
-
-  destination_port_range = 443
-  source_address_prefix  = "Internet"
-}
-
-resource "azurerm_network_security_rule" "rdp" {
-  name                        = "example2"
-  access                      = "Deny"
-  direction                   = "Inbound"
-  network_security_group_name = azurerm_network_security_group.NSG.name
-  priority                    = 110
-  protocol                    = "Tcp"
-  resource_group_name         = azurerm_resource_group.testRG.name
-
-  destination_port_range = 3389
-  source_address_prefix  = "Internet"
-}
-
-resource "azurerm_network_security_rule" "ssh" {
-  name                        = "example3"
-  access                      = "Deny"
-  direction                   = "Inbound"
-  network_security_group_name = azurerm_network_security_group.NSG.name
-  priority                    = 120
-  protocol                    = "Tcp"
-  resource_group_name         = azurerm_resource_group.testRG.name
-
-  destination_port_range = 22
-  source_address_prefix  = "Internet"
-}
-
-resource "azurerm_subnet_network_security_group_association" "example" {
-  subnet_id                 = azurerm_subnet.endpoint.id
-  network_security_group_id = azurerm_network_security_group.NSG.id
-}
-
-resource "azurerm_subnet" "endpoint" {
-  name                 = "endpoint"
-  resource_group_name  = azurerm_resource_group.testRG.name
-  virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.0.2.0/24"]
-}
-
 resource "azurerm_private_endpoint" "testprvendpoint" {
   name                = "testprvendpoint"
   location            = azurerm_resource_group.testRG.location
   resource_group_name = azurerm_resource_group.testRG.name
   subnet_id = azurerm_subnet.endpoint.id
-
   private_service_connection {
     name                           = "example-privateserviceconnection"
     private_connection_resource_id = azurerm_storage_account.testSA.id
     is_manual_connection = false
   }
-}
-
-resource "azurerm_private_endpoint" "testprvendpoint2" {
-  name                = "testprvendpoint2"
-  location            = azurerm_resource_group.testRG.location
-  resource_group_name = azurerm_resource_group.testRG.name
-  subnet_id = azurerm_subnet.endpoint.id
-
-  private_service_connection {
-    name                           = "example-privateserviceconnection2"
-    private_connection_resource_id = azurerm_key_vault.example.id
-    is_manual_connection = false
-  }
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint,
+    azurerm_storage_account.testSA
+  ]
 }
 
 resource "azurerm_key_vault" "example" {
@@ -195,6 +224,9 @@ resource "azurerm_key_vault" "example" {
 
     key_permissions = ["get", "create", "wrapKey", "unwrapKey", "sign", "verify"]
   }
+  depends_on = [ 
+    azurerm_resource_group.testRG
+  ]
 }
 
 resource "azurerm_key_vault_key" "example" {
@@ -204,6 +236,29 @@ resource "azurerm_key_vault_key" "example" {
   key_type     = "RSA-HSM"
   key_size     = 2048
   key_opts     = ["decrypt", "encrypt", "sign", "verify"]
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_key_vault.example
+  ]
 }
 
 data "azurerm_client_config" "current" {}
+
+resource "azurerm_private_endpoint" "testprvendpoint2" {
+  name                = "testprvendpoint2"
+  location            = azurerm_resource_group.testRG.location
+  resource_group_name = azurerm_resource_group.testRG.name
+  subnet_id = azurerm_subnet.endpoint.id
+  private_service_connection {
+    name                           = "example-privateserviceconnection2"
+    private_connection_resource_id = azurerm_key_vault.example.id
+    is_manual_connection = false
+  }
+  depends_on = [ 
+    azurerm_resource_group.testRG,
+    azurerm_virtual_network.example,
+    azurerm_subnet.endpoint,
+    azurerm_key_vault.example
+  ]
+}
+
