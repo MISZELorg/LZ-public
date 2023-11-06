@@ -244,8 +244,7 @@ resource "azurerm_key_vault_key" "example" {
   key_opts     = ["decrypt", "encrypt", "sign", "verify"]
   depends_on = [ 
     azurerm_resource_group.testRG,
-    azurerm_key_vault.example,
-    azurerm_private_endpoint.testprvendpoint
+    azurerm_key_vault.example
   ]
 }
 
@@ -265,8 +264,7 @@ resource "azurerm_private_endpoint" "testprvendpoint2" {
     azurerm_resource_group.testRG,
     azurerm_virtual_network.example,
     azurerm_subnet.endpoint,
-    azurerm_key_vault.example,
-    azurerm_private_endpoint.testprvendpoint
+    azurerm_key_vault.example
   ]
 }
 
