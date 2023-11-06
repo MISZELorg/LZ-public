@@ -67,7 +67,13 @@ resource "azurerm_key_vault" "example" {
   location            = azurerm_resource_group.testRG.location
   sku_name            = "standard"
   tenant_id           = data.azurerm_client_config.current.tenant_id
-
+  purge_protection_enabled = true
+  public_network_access_enabled = false
+  soft_delete_retention_days  = 7
+  network_acls {
+    default_action = "Deny"
+    bypass = "AzureServices"
+  }
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
@@ -79,7 +85,8 @@ resource "azurerm_key_vault" "example" {
 resource "azurerm_key_vault_key" "example" {
   name         = "example-cmk"
   key_vault_id = azurerm_key_vault.example.id
-  key_type     = "RSA"
+  expiration_date = "2024-12-30T20:00:00Z"
+  key_type     = "RSA-HSM"
   key_size     = 2048
   key_opts     = ["decrypt", "encrypt", "sign", "verify"]
 }
