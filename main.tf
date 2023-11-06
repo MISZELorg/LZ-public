@@ -84,25 +84,26 @@ resource "azurerm_network_security_group" "NSG" {
   name                = "NSG1"
   location            = azurerm_resource_group.testRG.location
   resource_group_name = azurerm_resource_group.testRG.name
+}
 
-  security_rule {
-    name                       = "test123"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
+resource "azurerm_network_security_rule" "http" {
+  name                        = "example"
+  access                      = "Allow"
+  direction                   = "Inbound"
+  network_security_group_name = azurerm_network_security_group.NSG.name
+  priority                    = 100
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+
+  destination_port_range = 80
+  source_address_prefix  = "Internet"
 }
 
 resource "azurerm_network_security_rule" "https" {
   name                        = "example"
   access                      = "Allow"
   direction                   = "Inbound"
-  network_security_group_name = "azurerm_network_security_group.NSG.name"
+  network_security_group_name = azurerm_network_security_group.NSG.name
   priority                    = 100
   protocol                    = "Tcp"
   resource_group_name         = azurerm_resource_group.testRG.name
@@ -115,7 +116,7 @@ resource "azurerm_network_security_rule" "rdp" {
   name                        = "example2"
   access                      = "Allow"
   direction                   = "Inbound"
-  network_security_group_name = "azurerm_network_security_group.NSG.name"
+  network_security_group_name = azurerm_network_security_group.NSG.name
   priority                    = 110
   protocol                    = "Tcp"
   resource_group_name         = azurerm_resource_group.testRG.name
@@ -128,7 +129,7 @@ resource "azurerm_network_security_rule" "ssh" {
   name                        = "example3"
   access                      = "Allow"
   direction                   = "Inbound"
-  network_security_group_name = "azurerm_network_security_group.NSG.name"
+  network_security_group_name = azurerm_network_security_group.NSG.name
   priority                    = 120
   protocol                    = "Tcp"
   resource_group_name         = azurerm_resource_group.testRG.name
