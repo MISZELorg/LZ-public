@@ -98,6 +98,45 @@ resource "azurerm_network_security_group" "NSG" {
   }
 }
 
+resource "azurerm_network_security_rule" "https" {
+  name                        = "example"
+  access                      = "Allow"
+  direction                   = "Inbound"
+  network_security_group_name = "azurerm_network_security_group.NSG.name"
+  priority                    = 100
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+
+  destination_port_range = 443
+  source_address_prefix  = "Internet"
+}
+
+resource "azurerm_network_security_rule" "rdp" {
+  name                        = "example2"
+  access                      = "Allow"
+  direction                   = "Inbound"
+  network_security_group_name = "azurerm_network_security_group.NSG.name"
+  priority                    = 110
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+
+  destination_port_range = 3389
+  source_address_prefix  = "Internet"
+}
+
+resource "azurerm_network_security_rule" "ssh" {
+  name                        = "example3"
+  access                      = "Allow"
+  direction                   = "Inbound"
+  network_security_group_name = "azurerm_network_security_group.NSG.name"
+  priority                    = 120
+  protocol                    = "Tcp"
+  resource_group_name         = azurerm_resource_group.testRG.name
+
+  destination_port_range = 22
+  source_address_prefix  = "Internet"
+}
+
 resource "azurerm_subnet_network_security_group_association" "example" {
   subnet_id                 = azurerm_subnet.endpoint.id
   network_security_group_id = azurerm_network_security_group.NSG.id
