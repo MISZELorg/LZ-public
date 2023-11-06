@@ -229,7 +229,6 @@ resource "azurerm_key_vault" "example" {
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
-
     key_permissions = ["Get", "Create", "WrapKey", "UnwrapKey", "Sign", "Verify"]
   }
   depends_on = [ 
@@ -246,7 +245,8 @@ resource "azurerm_key_vault_key" "example" {
   key_opts     = ["decrypt", "encrypt", "sign", "verify"]
   depends_on = [ 
     azurerm_resource_group.testRG,
-    azurerm_key_vault.example
+    azurerm_key_vault.example,
+    azurerm_private_endpoint.testprvendpoint
   ]
 }
 
@@ -266,7 +266,8 @@ resource "azurerm_private_endpoint" "testprvendpoint2" {
     azurerm_resource_group.testRG,
     azurerm_virtual_network.example,
     azurerm_subnet.endpoint,
-    azurerm_key_vault.example
+    azurerm_key_vault.example,
+    azurerm_private_endpoint.testprvendpoint
   ]
 }
 
