@@ -52,3 +52,22 @@ resource "azurerm_storage_account" "testSA" {
     }
   }
 }
+
+resource "azurerm_storage_container" "testcontainer" {
+  name                  = "mycontainer"
+  storage_account_name  = azurerm_storage_account.testSA.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_container_sas" "example" {
+  connection_string = azurerm_storage_account.testSA.primary_connection_string
+  start            = "2023-11-06"
+  expiry           = "2023-12-31"
+  container_name    = azurerm_storage_container.testcontainer.name
+  permissions      = {
+    read = true
+    list = true
+    write = false
+    delete = false
+  }
+}
