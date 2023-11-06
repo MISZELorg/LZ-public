@@ -88,7 +88,7 @@ resource "azurerm_network_security_group" "NSG" {
 
 resource "azurerm_network_security_rule" "http" {
   name                        = "example"
-  access                      = "Allow"
+  access                      = "Deny"
   direction                   = "Inbound"
   network_security_group_name = azurerm_network_security_group.NSG.name
   priority                    = 100
@@ -101,7 +101,7 @@ resource "azurerm_network_security_rule" "http" {
 
 resource "azurerm_network_security_rule" "https" {
   name                        = "example"
-  access                      = "Allow"
+  access                      = "Deny"
   direction                   = "Inbound"
   network_security_group_name = azurerm_network_security_group.NSG.name
   priority                    = 100
@@ -114,7 +114,7 @@ resource "azurerm_network_security_rule" "https" {
 
 resource "azurerm_network_security_rule" "rdp" {
   name                        = "example2"
-  access                      = "Allow"
+  access                      = "Deny"
   direction                   = "Inbound"
   network_security_group_name = azurerm_network_security_group.NSG.name
   priority                    = 110
@@ -127,7 +127,7 @@ resource "azurerm_network_security_rule" "rdp" {
 
 resource "azurerm_network_security_rule" "ssh" {
   name                        = "example3"
-  access                      = "Allow"
+  access                      = "Deny"
   direction                   = "Inbound"
   network_security_group_name = azurerm_network_security_group.NSG.name
   priority                    = 120
