@@ -83,6 +83,7 @@ resource "azurerm_network_security_rule" "http" {
   protocol                    = "Tcp"
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 80
+  source_port_range           = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
@@ -101,6 +102,7 @@ resource "azurerm_network_security_rule" "https" {
   protocol                    = "Tcp"
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 443
+  source_port_range           = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
@@ -119,6 +121,7 @@ resource "azurerm_network_security_rule" "rdp" {
   protocol                    = "Tcp"
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 3389
+  source_port_range           = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
@@ -137,6 +140,7 @@ resource "azurerm_network_security_rule" "ssh" {
   protocol                    = "Tcp"
   resource_group_name         = azurerm_resource_group.testRG.name
   destination_port_range = 22
+  source_port_range           = "*"
   source_address_prefix  = "Internet"
   depends_on = [ 
     azurerm_resource_group.testRG,
@@ -206,7 +210,7 @@ resource "azurerm_private_endpoint" "testprvendpoint" {
 }
 
 resource "azurerm_key_vault" "example" {
-  name                = "example-keyvault"
+  name                = "kmiszelghakv"
   resource_group_name = azurerm_resource_group.testRG.name
   location            = azurerm_resource_group.testRG.location
   sku_name            = "standard"
