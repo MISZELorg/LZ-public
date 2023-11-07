@@ -32,6 +32,11 @@ resource "azurerm_resource_group" "testRG" {
   location = "westeurope"
 }
 
+resource "azurerm_resource_group" "testRG" {
+  name     = "test-RG"
+  location = var.location
+}
+
 # resource "azurerm_virtual_network" "example" {
 #   name                = "example-network"
 #   address_space       = ["10.0.0.0/16"]
