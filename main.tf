@@ -32,8 +32,8 @@ resource "azurerm_resource_group" "testRG" {
   location = "westeurope"
 }
 
-resource "azurerm_resource_group" "testRG" {
-  name     = "test-RG"
+resource "azurerm_resource_group" "testRG2" {
+  name     = "test-RG2"
   location = var.location
 }
 
