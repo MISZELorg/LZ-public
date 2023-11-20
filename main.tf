@@ -37,4 +37,22 @@ resource "azurerm_storage_account" "example" {
   identity {
     type = "SystemAssigned"
   }
+  logging {
+    version = 2
+
+    delete {
+      enabled   = true
+      retention = 7
+    }
+
+    read {
+      enabled   = true
+      retention = 7
+    }
+
+    write {
+      enabled   = true
+      retention = 7
+    }
+  }
 }
