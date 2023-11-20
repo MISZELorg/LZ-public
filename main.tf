@@ -37,19 +37,4 @@ resource "azurerm_storage_account" "example" {
   identity {
     type = "SystemAssigned"
   }
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "2.0"
-      retention_policy_days = 7
-    }
-    hour_metrics {
-      enabled               = true
-      include_apis          = true
-      version               = "2.0"
-      retention_policy_days = 7
-    }
-  }
 }
