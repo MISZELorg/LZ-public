@@ -57,6 +57,12 @@ resource "azurerm_linux_web_app" "example" {
   resource_group_name = azurerm_resource_group.testRG.name
   location            = azurerm_resource_group.testRG.location
   service_plan_id     = azurerm_service_plan.example-asp.id
-
+  client_cert_enabled = false
+  auth_settings {
+    enabled = true
+  }
+  identity {
+    type = "SystemAssigned"
+  }
   site_config {}
 }
