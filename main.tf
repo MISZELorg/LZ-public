@@ -43,3 +43,11 @@ resource "azurerm_resource_group" "testRG2" {
 #     type = "SystemAssigned"
 #   }
 # }
+
+resource "azurerm_service_plan" "example-asp" {
+  name                = "example-asp"
+  resource_group_name = azurerm_resource_group.testRG.name
+  location            = azurerm_resource_group.testRG.location
+  os_type             = "Linux"
+  sku_name            = "P1v2"
+}
