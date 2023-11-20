@@ -26,6 +26,11 @@ resource "azurerm_resource_group" "testRG" {
   location = var.location
 }
 
+resource "azurerm_resource_group" "testRG2" {
+  name     = "test-RG2"
+  location = var.location
+}
+
 # resource "azurerm_storage_account" "example" {
 #   name                      = "kmiszelsonarcloud1"
 #   resource_group_name       = azurerm_resource_group.testRG.name
