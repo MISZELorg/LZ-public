@@ -44,28 +44,28 @@ resource "azurerm_resource_group" "testRG2" {
 #   }
 # }
 
-resource "azurerm_service_plan" "example-asp" {
-  name                = "example-asp"
-  resource_group_name = azurerm_resource_group.testRG.name
-  location            = azurerm_resource_group.testRG.location
-  os_type             = "Linux"
-  sku_name            = "P1v2"
-}
+# resource "azurerm_service_plan" "example-asp" {
+#   name                = "example-asp"
+#   resource_group_name = azurerm_resource_group.testRG.name
+#   location            = azurerm_resource_group.testRG.location
+#   os_type             = "Linux"
+#   sku_name            = "P1v2"
+# }
 
-resource "azurerm_linux_web_app" "example" {
-  name                = "kmiszelsonar"
-  resource_group_name = azurerm_resource_group.testRG.name
-  location            = azurerm_resource_group.testRG.location
-  service_plan_id     = azurerm_service_plan.example-asp.id
-  # client_certificate_enabled = false
-  # client_certificate_mode    = "Required"
-  client_certificate_enabled = true
-  client_certificate_mode    = "Optional"
-  auth_settings {
-    enabled = true
-  }
-  identity {
-    type = "SystemAssigned"
-  }
-  site_config {}
-}
+# resource "azurerm_linux_web_app" "example" {
+#   name                = "kmiszelsonar"
+#   resource_group_name = azurerm_resource_group.testRG.name
+#   location            = azurerm_resource_group.testRG.location
+#   service_plan_id     = azurerm_service_plan.example-asp.id
+#   # client_certificate_enabled = false
+#   # client_certificate_mode    = "Required"
+#   client_certificate_enabled = true
+#   client_certificate_mode    = "Optional"
+#   auth_settings {
+#     enabled = true
+#   }
+#   identity {
+#     type = "SystemAssigned"
+#   }
+#   site_config {}
+# }
