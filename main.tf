@@ -34,4 +34,7 @@ resource "azurerm_storage_account" "example" {
   account_replication_type  = "GRS"
   enable_https_traffic_only = true
   min_tls_version           = "TLS1_2"
+  identity {
+    type = "SystemAssigned"
+  }
 }
