@@ -39,7 +39,7 @@ jobs:
         go-version: 1.21
   
     - name: Install tfsec
-      run: go get -u github.com/tfsec/tfsec/cmd/tfsec
+      run: go install -u github.com/tfsec/tfsec/cmd/tfsec@latest
   
     - name: Run tfsec
       run: tfsec
