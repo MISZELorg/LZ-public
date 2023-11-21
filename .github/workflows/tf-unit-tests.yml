@@ -29,9 +29,9 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check -recursive
     
-    # Perform security scan with TFsec
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+    # # Perform security scan with TFsec
+    # - name: Checkout Repository
+    #   uses: actions/checkout@v3
   
     - name: Set up Go
       uses: actions/setup-go@v3
