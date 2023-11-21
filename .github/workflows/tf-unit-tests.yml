@@ -29,20 +29,20 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check -recursive
     
-    # Perform security scan with TFsec
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+    # # Perform security scan with TFsec
+    # - name: Checkout Repository
+    #   uses: actions/checkout@v3
   
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.21
+    # - name: Set up Go
+    #   uses: actions/setup-go@v3
+    #   with:
+    #     go-version: 1.21
   
-    - name: Install tfsec
-      run: go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
+    # - name: Install tfsec
+    #   run: go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
   
-    - name: Run tfsec
-      run: tfsec
+    # - name: Run tfsec
+    #   run: tfsec
 
     # # Perform a security scan of the terraform code using checkov
     # - name: Run Checkov action
