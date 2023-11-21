@@ -30,9 +30,6 @@ jobs:
       run: terraform fmt -check -recursive
     
     # # Perform security scan with TFsec
-    # - name: Checkout Repository
-    #   uses: actions/checkout@v3
-  
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
@@ -44,12 +41,12 @@ jobs:
     - name: Run tfsec
       run: tfsec
 
-    # # Perform a security scan of the terraform code using checkov
-    # - name: Run Checkov action
-    #   id: checkov
-    #   uses: bridgecrewio/checkov-action@master
-    #   with: 
-    #     framework: terraform
+    # Perform a security scan of the terraform code using checkov
+    - name: Run Checkov action
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with: 
+        framework: terraform
 
     # # Upload results to GitHub Advanced Security
     # - name: Upload SARIF file
