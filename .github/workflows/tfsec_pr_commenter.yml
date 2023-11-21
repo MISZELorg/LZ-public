@@ -13,4 +13,4 @@ jobs:
       - name: tfsec
         uses: tfsec/tfsec-pr-commenter-action@main
         with:
-          github_token: ${{ secrets.TOKEN }}
+          github_token: ${{ secrets.TOKEN234 }}
