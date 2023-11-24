@@ -39,7 +39,7 @@ jobs:
         policy_type: 'azure'
         only_warn: true # The action will only warn and not error when violations are found.
         #scm_token: ${{ secrets.TOKEN3 }} # If provided, Terrascan will use the provided access token to retrieve private repositories from your source code management system.
-        #verbose: true
+        verbose: true
         #find_vulnerabilities: true
         #sarif_upload: true
         #non_recursive:
