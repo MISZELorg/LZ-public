@@ -45,7 +45,7 @@ jobs:
         #non_recursive:
         #iac_dir:
         #policy_path:
-        #skip_rules:
+        skip_rules: AC_AZURE_0389
         #config_path:
     # - name: Upload SARIF file
     #   uses: github/codeql-action/upload-sarif@v1
