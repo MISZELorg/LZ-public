@@ -38,7 +38,7 @@ jobs:
         iac_version: 'v14'
         policy_type: 'azure'
         only_warn: false # The action will only warn and not error when violations are found.
-        #scm_token: ${{ secrets.TOKEN3 }} # If provided, Terrascan will use the provided access token to retrieve private repositories from your source code management system.
+        #scm_token: ${{ secrets.TOKEN4 }} # If provided, Terrascan will use the provided access token to retrieve private repositories from your source code management system.
         verbose: true
         #find_vulnerabilities: true
         #sarif_upload: true
@@ -51,6 +51,7 @@ jobs:
       uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: terrascan.sarif
+        token: ${{ secrets.TOKEN3 }}
         
     
     # # Perform security scan with TFsec
