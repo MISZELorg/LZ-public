@@ -21,10 +21,10 @@ provider "azurerm" {
   use_oidc = true
 }
 
-# resource "azurerm_resource_group" "testRG" {
-#   name     = "test-RG"
-#   location = var.location
-# }
+resource "azurerm_resource_group" "testRG" {
+  name     = "test-RG"
+  location = var.location
+}
 
 # resource "azurerm_resource_group" "testRG2" {
 #   name     = "test-RG2"
@@ -32,13 +32,13 @@ provider "azurerm" {
 # }
 
 # resource "azurerm_storage_account" "example-sa" {
-#   name                     = "kmiszeltfsec"
+#   name                     = "kmiszeltfscan"
 #   resource_group_name      = azurerm_resource_group.testRG.name
 #   location                 = azurerm_resource_group.testRG.location
 #   account_tier             = "Standard"
 #   account_replication_type = "LRS"
 #   # enable_https_traffic_only = true
-#   min_tls_version = "TLS1_2"
+#   #min_tls_version = "TLS1_2"
 #   # identity {
 #   #   type = "SystemAssigned"
 #   # }
