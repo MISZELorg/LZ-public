@@ -28,6 +28,30 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check -recursive
+
+    # Perform security scan with Terrascan
+    - name: Run Terrascan
+      id: terrascan
+      uses: tenable/terrascan-action@main
+      with:
+        iac_type: 'terraform'
+        iac_version: 'v14'
+        policy_type: 'azure'
+        only_warn: true # The action will only warn and not error when violations are found.
+        #scm_token: ${{ secrets.TOKEN3 }} # If provided, Terrascan will use the provided access token to retrieve private repositories from your source code management system.
+        #verbose: true
+        #find_vulnerabilities: true
+        #sarif_upload: true
+        #non_recursive:
+        #iac_dir:
+        #policy_path:
+        #skip_rules:
+        #config_path:
+    # - name: Upload SARIF file
+    #   uses: github/codeql-action/upload-sarif@v1
+    #   with:
+    #     sarif_file: terrascan.sarif
+        
     
     # # Perform security scan with TFsec
     # - name: Set up Go
@@ -54,5 +78,5 @@ jobs:
     #   uses: github/codeql-action/upload-sarif@v2
     #   with:
     #     sarif_file: results.sarif
-    #     token: ${{ secrets.TOKEN }}
+    #     token: ${{ secrets.TOKEN2 }}
     #     category: checkov
